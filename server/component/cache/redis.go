@@ -50,9 +50,9 @@ func GetConnForDb(dbNum int) (adapter *connAdapter) {
 	return
 }
 
-func (adapter *connAdapter) Expire(key string, seconds int) (err error) {
+func (adapter *connAdapter) Expire(key string, duration time.Duration) (err error) {
 	defer adapter.conn.Close()
-	_, err = adapter.conn.Do("EXPIRE", key, seconds)
+	_, err = adapter.conn.Do("EXPIRE", key, duration.Seconds())
 	return
 }
 
@@ -68,15 +68,15 @@ func (adapter *connAdapter) Set(key string, value interface{}) (err error) {
 	return
 }
 
-func (adapter *connAdapter) SetEx(key string, seconds int, value interface{}) (err error) {
+func (adapter *connAdapter) SetEx(key string, duration time.Duration, value interface{}) (err error) {
 	defer adapter.conn.Close()
-	_, err = adapter.conn.Do("SETEX", key, seconds, value)
+	_, err = adapter.conn.Do("SETEX", key, duration.Seconds(), value)
 	return
 }
 
-func (adapter *connAdapter) Get(key string) (value interface{}, err error) {
+func (adapter *connAdapter) Get(key string) (value []byte, err error) {
 	defer adapter.conn.Close()
-	value, err = redis.String(adapter.conn.Do("GET", key))
+	value, err = redis.Bytes(adapter.conn.Do("GET", key))
 	return
 }
 

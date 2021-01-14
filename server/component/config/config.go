@@ -5,6 +5,13 @@ import (
 )
 
 var Config = struct {
+	DB struct {
+		Ip       string
+		Port     string
+		Schema   string
+		Name     string
+		Password string
+	}
 	Cache struct {
 		Ip   string
 		Port string

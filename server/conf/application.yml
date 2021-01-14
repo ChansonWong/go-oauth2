@@ -1,3 +1,9 @@
+db:
+  ip: 120.0.0.1
+  port: 3306
+  schema: oauth2
+  name: root
+  password: root
 cache:
   ip: 127.0.0.1
   port: 6379
