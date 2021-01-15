@@ -3,6 +3,7 @@ package dao
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/rs/zerolog/log"
 	uuid "github.com/satori/go.uuid"
 	"server/component/config"
@@ -16,12 +17,12 @@ type Model struct {
 }
 
 func init() {
-	dbStr := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
-		config.Config.DB.Ip, config.Config.DB.Port, config.Config.DB.Name, config.Config.DB.Schema,
-		config.Config.DB.Password)
+	dbStr := fmt.Sprintf("mysql://%s:%s@tcp(%s:%s)/%s?timeout=20s&readTimeout=20s",
+		config.Config.DB.Name, config.Config.DB.Password, config.Config.DB.Ip, config.Config.DB.Port,
+		config.Config.DB.Schema)
 	log.Info().Msgf("db url %s.", dbStr)
 	var err error
-	db, err = gorm.Open("postgres", dbStr)
+	db, err = gorm.Open("mysql", dbStr)
 	if err != nil {
 		log.Error().Msgf("connection error %v", err)
 		panic(err)

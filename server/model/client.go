@@ -9,6 +9,10 @@ type AuthClientDetail struct {
 	AppName string `json:"app_name"`
 }
 
+func (AuthClientDetail) TableName() string {
+	return "auth_client_detail"
+}
+
 type AuthAccessToken struct {
 	dao.Model
 	AccessToken string `json:"access_token"`
@@ -20,9 +24,17 @@ type AuthAccessToken struct {
 	Scope       string `json:"scope"`
 }
 
+func (AuthAccessToken) TableName() string {
+	return "auth_access_token"
+}
+
 type AuthRefreshToken struct {
 	dao.Model
 	AccessTokenId string `json:"access_token_id"` // AuthAccessToken表的主键
 	RefreshToken  string `json:"refresh_token"`
 	ExpiresIn     int    `json:"expires_in"`
+}
+
+func (AuthRefreshToken) TableName() string {
+	return "auth_refresh_token"
 }
